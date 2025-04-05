@@ -1,0 +1,2392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SlouchX Posture Device | Morphell</title>
+  <style>
+    /* Reset and base styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: #0e0e0f;
+      color: white;
+      overflow-x: hidden;
+    }
+
+    /* Typography */
+    h1, h2, h3, h4, h5, h6 {
+      font-weight: 700;
+    }
+
+    /* Utilities */
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+
+    .accent-text {
+      color: #ddd0a3; /* The yellow-gold used for accent text */
+    }
+
+    .text-center {
+      text-align: center;
+    }
+
+    .py-20 {
+      padding-top: 5rem;
+      padding-bottom: 5rem;
+    }
+
+    .py-12 {
+      padding-top: 3rem;
+      padding-bottom: 3rem;
+    }
+
+    .py-6 {
+      padding-top: 1.5rem;
+      padding-bottom: 1.5rem; 
+    }
+
+    .mb-6 {
+      margin-bottom: 1.5rem;
+    }
+
+    .mb-4 {
+      margin-bottom: 1rem;
+    }
+
+    .mb-8 {
+      margin-bottom: 2rem;
+    }
+
+    .my-4 {
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .mt-4 {
+      margin-top: 1rem;
+    }
+
+    .flex {
+      display: flex;
+    }
+
+    .flex-col {
+      flex-direction: column;
+    }
+
+    .items-center {
+      align-items: center;
+    }
+
+    .justify-center {
+      justify-content: center;
+    }
+
+    .justify-between {
+      justify-content: space-between;
+    }
+
+    .space-x-6 > * + * {
+      margin-left: 1.5rem;
+    }
+
+    .space-x-4 > * + * {
+      margin-left: 1rem;
+    }
+
+    .z-50 {
+      z-index: 50;
+    }
+
+    .relative {
+      position: relative;
+    }
+
+    .absolute {
+      position: absolute;
+    }
+
+    .inset-0 {
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 2rem;
+      border-radius: 9999px;
+      font-weight: 500;
+      text-align: center;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+      background-color: #ddd0a3;
+      color: #0e0e0f;
+    }
+
+    .btn-primary:hover {
+      background-color: #c9bd92;
+    }
+
+    .w-full {
+      width: 100%;
+    }
+
+    .max-w-3xl {
+      max-width: 48rem;
+    }
+
+    .mx-auto {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .opacity-90 {
+      opacity: 0.9;
+    }
+
+    .overflow-hidden {
+      overflow: hidden;
+    }
+
+    /* Component styles */
+    .navbar-container {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      max-width: 1400px;
+      z-index: 50;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 1.5rem;
+      background-color: rgba(14, 14, 15, 0.4);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 50px;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .navbar a {
+      color: white;
+      text-decoration: none;
+      transition: color 0.3s ease;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .navbar a:hover {
+      color: #ddd0a3;
+    }
+
+    .logo {
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+
+    .nav-links {
+      display: flex;
+    }
+
+    /* Additional style for the navbar layout */
+    .nav-left {
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+    }
+
+    .hero-section {
+      min-height: 100vh;
+      background-image: url('https://web-assets.same.dev/4223219370/849522504.jpeg');
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8rem 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-section::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+    }
+
+    /* Background element for zoom animation */
+    .hero-section::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: inherit;
+      background-size: cover;
+      background-position: center;
+      transition: transform 2s ease;
+      z-index: 0; /* Below the overlay */
+    }
+
+    /* Zoom in animation for hero background */
+    .bg-zoom-in::after {
+      transform: scale(1.1);
+    }
+
+    .hero-title {
+      font-size: 3.5rem;
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
+    }
+
+    .hero-description {
+      font-size: 1.25rem;
+      margin-top: 1.5rem;
+      line-height: 1.6;
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+    }
+
+    /* Thicker navbar */
+    .navbar-thicker {
+      padding: 1rem 2rem; /* Increased padding */
+      border-radius: 50px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); /* Enhanced shadow */
+    }
+
+    .navbar-thicker a {
+      font-size: 1rem; /* Slightly larger font */
+      font-weight: 600; /* Bolder text */
+    }
+
+    .logo {
+      font-size: 1.4rem; /* Larger logo text */
+      font-weight: 800;
+    }
+
+    /* Centered hero content */
+    .centered-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      padding: 0 2rem;
+    }
+
+    /* Make sure the hero section is tall enough */
+    .hero-section {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Ensure the button stands out more */
+    .btn-primary {
+      padding: 1rem 2.5rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin: 2rem 0;
+      box-shadow: 0 4px 15px rgba(221, 208, 163, 0.3);
+    }
+
+    /* Adjust hero title and description */
+    .hero-title {
+      font-size: 4rem;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+
+    .hero-description {
+      font-size: 1.25rem;
+      line-height: 1.6;
+      max-width: 800px;
+      margin: 1.5rem auto 0;
+    }
+
+    @media (max-width: 768px) {
+      .navbar-thicker {
+        padding: 0.75rem 1.5rem;
+      }
+      
+      .hero-title {
+        font-size: 2.75rem;
+      }
+      
+      .centered-content {
+        width: 95%;
+      }
+    }
+
+    /* Full-page Launching Soon Section */
+.fullscreen-section {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: #151516;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+
+
+.launch-container {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+  max-width: 1200px;
+  width: 100%;
+}
+
+.device-image-large {
+  max-width: 200px;
+  border-radius: 1rem;
+  filter: drop-shadow(0 0 20px rgba(221, 208, 163, 0.3));
+}
+
+.launch-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.launch-title {
+  font-size: 5rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  background: linear-gradient(45deg, #fff, #ddd0a3);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 30px rgba(221, 208, 163, 0.3);
+}
+
+.launch-subtitle {
+  font-size: 2.5rem;
+  margin-bottom: 3rem;
+  color: #ddd0a3;
+}
+
+.countdown-timer-large {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.countdown-item-large {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.countdown-value-large {
+  font-size: 4rem;
+  font-weight: 700;
+  background-color: rgba(26, 26, 26, 0.8);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  min-width: 8rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ddd0a3;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(221, 208, 163, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.countdown-label-large {
+  margin-top: 1rem;
+  font-size: 1.2rem;
+  color: white;
+  font-weight: 500;
+}
+
+.launch-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 500px;
+}
+
+.btn-large {
+  padding: 1.2rem 3rem;
+  font-size: 1.2rem;
+  border-radius: 9999px;
+}
+
+.launch-form {
+  display: flex;
+  width: 100%;
+}
+
+.launch-input {
+  flex: 1;
+  padding: 1rem 1.5rem;
+  font-size: 1rem;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  border-radius: 9999px 0 0 9999px;
+  backdrop-filter: blur(10px);
+}
+
+.launch-input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.launch-button {
+  padding: 1rem 1.5rem;
+  background-color: #ddd0a3;
+  color: #0e0e0f;
+  border: none;
+  border-radius: 0 9999px 9999px 0;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.launch-button:hover {
+  background-color: #c9bd92;
+}
+
+/* Media Query for Mobile */
+@media (max-width: 768px) {
+  .launch-title {
+    font-size: 3rem;
+  }
+
+  .launch-subtitle {
+    font-size: 1.8rem;
+  }
+
+  .countdown-timer-large {
+    gap: 1rem;
+  }
+
+  .countdown-value-large {
+    font-size: 2.5rem;
+    min-width: 5rem;
+    padding: 1rem;
+  }
+
+  .countdown-label-large {
+    font-size: 1rem;
+  }
+
+  .device-image-large {
+    max-width: 200px;
+  }
+}
+    /* New Device Introduction Section Styles */
+    .device-intro-section {
+      background-color: #0e0e0f;
+      min-height: 100vh;
+      padding: 8rem 0;
+      display: flex;
+      align-items: center;
+    }
+
+    .device-image {
+      max-width: 100%;
+      height: auto;
+      border-radius: 1rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .device-image:hover {
+      transform: scale(1.02);
+    }
+
+    .device-content {
+      padding: 2rem;
+    }
+
+    .device-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .device-features {
+      margin-top: 2rem;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 1.5rem;
+    }
+
+    .feature-icon {
+      width: 40px;
+      height: 40px;
+      background-color: #ddd0a3;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 1rem;
+      flex-shrink: 0;
+    }
+
+    .feature-text h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .feature-text p {
+      opacity: 0.8;
+      line-height: 1.6;
+    }
+
+    .cosmos-section {
+      background-color: #0e0e0f;
+      padding: 5rem 0;
+    }
+
+    .cosmos-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    
+    .feature-card {
+      background-color: #1a1a1a;
+      border-radius: 0.5rem;
+      padding: 2rem;
+      transition: transform 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .feature-title {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .feature-description {
+      line-height: 1.6;
+      opacity: 0.8;
+    }
+
+    .video-container {
+      width: 100%;
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 aspect ratio */
+      overflow: hidden;
+      border-radius: 0.5rem;
+      background-color: #1a1a1a;
+    }
+
+    .video-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .play-button {
+      width: 80px;
+      height: 80px;
+      background-color: #ddd0a3;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+
+    .play-button:hover {
+      transform: scale(1.05);
+      background-color: #c9bd92;
+    }
+
+    .play-icon {
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 15px 0 15px 25px;
+      border-color: transparent transparent transparent #0e0e0f;
+      margin-left: 5px;
+    }
+
+    .countdown-container {
+      margin-top: 2rem;
+      background-color: rgba(0, 0, 0, 0.3);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      text-align: center;
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(221, 208, 163, 0.2);
+    }
+
+    .countdown-title {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: #ddd0a3;
+    }
+
+    .countdown-timer {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .countdown-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .countdown-value {
+      font-size: 2rem;
+      font-weight: 700;
+      background-color: #1a1a1a;
+      border-radius: 0.5rem;
+      padding: 0.5rem 1rem;
+      min-width: 4rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #ddd0a3;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .countdown-label {
+      margin-top: 0.5rem;
+      font-size: 0.8rem;
+      opacity: 0.8;
+    }
+
+    /* Tech Details Section */
+    .tech-details-section {
+      background-color: #151516;
+      padding: 5rem 0;
+    }
+
+    .specs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .spec-card {
+      background-color: #1a1a1a;
+      border-radius: 0.5rem;
+      padding: 2rem;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .spec-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .spec-icon {
+      width: 60px;
+      height: 60px;
+      margin: 0 auto 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #ddd0a3;
+      border-radius: 50%;
+    }
+
+    .spec-value {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: #ddd0a3;
+    }
+
+    .spec-label {
+      font-size: 1rem;
+      opacity: 0.8;
+    }
+
+    /* Reviews Section */
+    .reviews-section {
+      background-color: #0e0e0f;
+      padding: 5rem 0;
+    }
+
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .review-card {
+      background-color: #1a1a1a;
+      border-radius: 0.5rem;
+      padding: 2rem;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .review-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .review-text {
+      font-style: italic;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    .review-text::before {
+      content: "";
+      font-size: 4rem;
+      color: #ddd0a3;
+      position: absolute;
+      top: -2rem;
+      left: -1rem;
+      opacity: 0.3;
+    }
+
+    .reviewer {
+      display: flex;
+      align-items: center;
+    }
+
+    .reviewer-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: #2a2a2a;
+      margin-right: 1rem;
+      overflow: hidden;
+    }
+
+    .reviewer-info h4 {
+      margin-bottom: 0.25rem;
+    }
+
+    .reviewer-info p {
+      opacity: 0.6;
+      font-size: 0.9rem;
+    }
+
+    .stars {
+      display: flex;
+      margin-bottom: 1rem;
+    }
+
+    .star {
+      color: #ddd0a3;
+      margin-right: 0.25rem;
+    }
+
+    /* FAQ Section with animation support */
+.faq-section {
+  background-color: #151516;
+  padding: 5rem 0;
+}
+
+.faq-container {
+  max-width: 800px;
+  margin: 3rem auto 0;
+}
+
+.faq-item {
+  border-bottom: 1px solid #2a2a2a;
+  margin-bottom: 1rem;
+}
+
+.faq-question {
+  padding: 1.5rem 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  font-size: 1.2rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.faq-question:hover {
+  color: #ddd0a3;
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: all 0.5s ease-in-out; /* Smooth slide animation */
+  line-height: 3.5;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.faq-icon {
+  width: 24px;
+  height: 24px;
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.faq-icon::before,
+.faq-icon::after {
+  content: "";
+  position: absolute;
+  background-color: #ddd0a3;
+  transition: all 0.3s ease;
+}
+
+.faq-icon::before {
+  width: 100%;
+  height: 2px;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+
+.faq-icon::after {
+  width: 2px;
+  height: 100%;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.faq-question.active .faq-icon::after {
+  transform: translateX(-50%) rotate(90deg);
+  opacity: 0;
+}
+/* Contact Section - Centered Layout */
+.contact-section {
+  background-color: #0e0e0f;
+  padding: 5rem 0 7rem;
+}
+
+/* Contact Form Container */
+.contact-form-container {
+  max-width: 700px;
+  margin: 0 auto 5rem;
+}
+
+.contact-form {
+  background-color: #1a1a1a;
+  padding: 3rem;
+  border-radius: 1rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.form-input {
+  width: 100%;
+  padding: 1rem 1.25rem;
+  border: 1px solid #2a2a2a;
+  background-color: rgba(14, 14, 15, 0.7);
+  color: white;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #ddd0a3;
+  box-shadow: 0 0 0 3px rgba(221, 208, 163, 0.1);
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 150px;
+}
+
+/* Form submission status and spinner */
+.form-status {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  text-align: center;
+}
+
+.form-status.success {
+  background-color: rgba(34, 197, 94, 0.1);
+  color: #22c55e;
+}
+
+.form-status.error {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+.hidden {
+  display: none;
+}
+
+
+.contact-button {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.1rem;
+  margin-top: 1rem;
+}
+
+/* Contact Info Container */
+.contact-info-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.contact-info-grid {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 3rem;
+}
+
+.contact-method {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 250px;
+}
+
+.contact-icon {
+  width: 56px;
+  height: 56px;
+  background-color: rgba(221, 208, 163, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+}
+
+.contact-details h4 {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+  color: #ddd0a3;
+}
+
+.contact-details p,
+.contact-details a {
+  opacity: 0.8;
+  text-decoration: none;
+  color: white;
+  transition: opacity 0.3s ease;
+  line-height: 1.5;
+}
+
+.contact-details a:hover {
+  opacity: 1;
+  color: #ddd0a3;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  
+  .contact-form {
+    padding: 2rem 1.5rem;
+  }
+  
+  .contact-info-grid {
+    flex-direction: column;
+    align-items: center;
+    gap: 2.5rem;
+  }
+}
+
+    .newsletter-section {
+      background-color: #1a1a1a;
+      padding: 4rem 0;
+    }
+
+    .newsletter-form {
+      display: flex;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .newsletter-input {
+      flex: 1;
+      padding: 0.75rem 1rem;
+      border: none;
+      background-color: #2a2a2a;
+      color: white;
+      border-radius: 9999px 0 0 9999px;
+      font-size: 1rem;
+    }
+
+    .newsletter-input:focus {
+      outline: none;
+    }
+
+    .newsletter-button {
+      background-color: #ddd0a3;
+      color: #0e0e0f;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0 9999px 9999px 0;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .newsletter-button:hover {
+      background-color: #c9bd92;
+    }
+
+    footer {
+      background-color: #0e0e0f;
+      padding: 4rem 0 2rem;
+      border-top: 1px solid #2a2a2a;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+    }
+
+    .footer-column h3 {
+      font-size: 1.25rem;
+      margin-bottom: 1.5rem;
+      color: #ddd0a3;
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 0.75rem;
+    }
+
+    .footer-links a {
+      color: white;
+      text-decoration: none;
+      opacity: 0.7;
+      transition: opacity 0.3s ease;
+    }
+
+    .footer-links a:hover {
+      opacity: 1;
+    }
+
+    .footer-bottom {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid #2a2a2a;
+      text-align: center;
+      opacity: 0.7;
+      font-size: 0.875rem;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      margin-top: 1.5rem;
+    }
+
+    .social-links a {
+      color: white;
+      margin: 0 0.75rem;
+      font-size: 1.25rem;
+      opacity: 0.7;
+      transition: opacity 0.3s ease;
+    }
+
+    .social-links a:hover {
+      opacity: 1;
+    }
+
+    /* What SlouchX Does - Vertical format without alternating sides */
+.feature-section {
+  background-color: #151516;
+  padding: 6rem 0;
+}
+
+.mb-16 {
+  margin-bottom: 4rem;
+}
+
+.feature-block {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  margin-bottom: 6rem;
+  align-items: center;
+}
+
+.feature-media {
+  width: 100%;
+}
+
+.feature-image {
+  width: 100%;
+  border-radius: 1rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.feature-info {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+}
+
+.step-number {
+  font-size: 6rem;
+  font-weight: 700;
+  line-height: 1;
+  color: #ddd0a3;
+  opacity: 0.6;
+  margin-top: -1rem;
+}
+
+.feature-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.feature-content .feature-title {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: white;
+}
+
+.feature-content .feature-description {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  opacity: 0.9;
+}
+
+/* Video container inside feature media */
+.feature-media .video-container {
+  width: 100%;
+  padding-bottom: 75%; /* 4:3 aspect ratio */
+  border-radius: 1rem;
+  overflow: hidden;
+  background-color: #1a1a1a;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+/* Typing effect */
+.typing-effect {
+  display: inline-block; 
+  min-height: 1.4em; /* Ensures a fixed height for the text */
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 0.15em solid #ddd0a3;
+  white-space: nowrap;
+  letter-spacing: 0.05em;
+  animation: typing 3.5s steps(30, end), blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: #ddd0a3 }
+}
+
+/* Extra small devices (phones, 480px and down) */
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 2rem;
+    line-height: 1.2;
+  }
+  
+  .section-title {
+    font-size: 1.75rem;
+  }
+  
+  .navbar-container {
+    width: 100%;
+    padding: 0 1rem;
+  }
+  
+  .mobile-menu-btn {
+    display: block;
+  }
+  
+  .feature-content .feature-title {
+    font-size: 1.5rem;
+  }
+  
+  .step-number {
+    font-size: 3rem;
+  }
+  
+  .device-intro-section {
+    padding: 4rem 0;
+  }
+  
+  .spec-value {
+    font-size: 1.25rem;
+  }
+  
+  .btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .launch-title {
+    font-size: 2.5rem;
+  }
+  
+  .launch-subtitle {
+    font-size: 1.5rem;
+  }
+  
+  .countdown-value-large {
+    font-size: 2rem;
+    min-width: 4rem;
+    padding: 0.8rem;
+  }
+  
+  .countdown-label-large {
+    font-size: 0.9rem;
+  }
+  
+  .device-image-large {
+    max-width: 150px;
+  }
+  
+  .faq-question {
+    font-size: 1.1rem;
+    padding: 1rem 0;
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 481px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .hero-title {
+    font-size: 2.5rem;
+  }
+  
+  .section-title {
+    font-size: 2rem;
+  }
+  
+  .navbar-container {
+    width: 95%;
+  }
+  
+  .feature-content .feature-title {
+    font-size: 1.6rem;
+  }
+  
+  .launch-title {
+    font-size: 3.5rem;
+  }
+  
+  .launch-subtitle {
+    font-size: 2rem;
+  }
+}
+
+/* Medium devices (landscape tablets, 769px - 992px) */
+@media (min-width: 769px) and (max-width: 992px) {
+  .cosmos-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .hero-title {
+    font-size: 3rem;
+  }
+  
+  .navbar-container {
+    width: 90%;
+  }
+  
+  .launch-title {
+    font-size: 4rem;
+  }
+  
+  .feature-block {
+    gap: 3rem;
+  }
+}
+
+/* Large devices (laptops/desktops, 993px - 1200px) */
+@media (min-width: 993px) and (max-width: 1200px) {
+  .navbar-container {
+    width: 85%;
+  }
+  
+  .hero-title {
+    font-size: 3.5rem;
+  }
+}
+
+/* Extra large devices (large laptops and desktops, 1201px and up) */
+@media (min-width: 1201px) {
+  /* Default styles for large screens */
+}
+
+/* Common responsive adjustments for tablets and mobiles */
+@media (max-width: 992px) {
+  .feature-block {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .feature-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .step-number {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+  }
+  
+  .feature-content .feature-title {
+    font-size: 1.75rem;
+  }
+  
+  .nav-links {
+    display: none;
+  }
+  
+  .device-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+  
+  .reviews-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .specs-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Special adjustments for landscape phones */
+@media (max-height: 480px) and (orientation: landscape) {
+  .hero-section {
+    min-height: 150vh;
+  }
+  
+  .launch-title {
+    font-size: 2.5rem;
+  }
+  
+  .countdown-timer-large {
+    gap: 0.5rem;
+  }
+  
+  .countdown-value-large {
+    font-size: 1.8rem;
+    min-width: 3rem;
+    padding: 0.5rem;
+  }
+}
+
+/* High-resolution displays */
+@media 
+(-webkit-min-device-pixel-ratio: 2), 
+(min-resolution: 192dpi) { 
+  /* Adjustments for retina displays */
+  .logo {
+    font-weight: 600;
+  }
+  
+  .navbar a {
+    font-weight: 500;
+  }
+}
+
+/* Print styles */
+@media print {
+  body {
+    background-color: white;
+    color: black;
+  }
+  
+  .navbar, .footer, .btn {
+    display: none !important;
+  }
+}
+
+/* ======================= */
+/* Component-specific responsive styles */
+/* ======================= */
+
+/* Navbar */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0.5rem 1rem;
+  }
+  
+  .navbar-thicker {
+    padding: 0.75rem 1.5rem;
+  }
+  
+  .logo {
+    font-size: 1.1rem;
+  }
+}
+
+/* Hero Section */
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 6rem 0;
+  }
+  
+  .hero-description {
+    font-size: 1.1rem;
+  }
+  
+  .centered-content {
+    width: 95%;
+    padding: 0 1rem;
+  }
+  
+  .btn-primary {
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+  }
+}
+
+/* Device Intro Section */
+@media (max-width: 768px) {
+  .device-intro-section {
+    padding: 4rem 0;
+  }
+  
+  .device-content {
+    padding: 1rem;
+  }
+}
+
+/* Countdown Timer */
+@media (max-width: 768px) {
+  .countdown-timer {
+    flex-wrap: wrap;
+  }
+  
+  .countdown-item {
+    width: 45%;
+    margin-bottom: 1rem;
+  }
+}
+
+/* FAQ Section */
+@media (max-width: 768px) {
+  .faq-container {
+    padding: 0 1rem;
+  }
+  
+  .faq-question {
+    font-size: 1.1rem;
+  }
+}
+
+/* Contact Section */
+@media (max-width: 768px) {
+  .contact-form {
+    padding: 2rem 1rem;
+  }
+  
+  .contact-info-grid {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .contact-method {
+    max-width: 100%;
+  }
+}
+
+/* Footer */
+@media (max-width: 768px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .footer-column {
+    text-align: center;
+  }
+  
+  .footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+  }
+}
+
+/* Feature Blocks */
+@media (max-width: 768px) {
+  .feature-block {
+    margin-bottom: 4rem;
+  }
+  
+  .feature-media .video-container {
+    padding-bottom: 56.25%; /* Switch to 16:9 on mobile */
+  }
+}
+
+/* Typing effect adjustments */
+@media (max-width: 768px) {
+  .typing-effect {
+    border-right: none;
+    animation: none;
+    white-space: normal;
+  }
+}
+    
+  </style>
+</head>
+<body>
+  <!-- Updated Navigation Bar with thicker style -->
+  <div class="navbar-container">
+    <div class="navbar navbar-thicker">
+      <div class="nav-left">
+        <a href="#" class="logo">Morphell</a>
+      </div>
+      <div class="nav-right">
+        <div class="nav-links space-x-6">
+          <a href="#device-intro">SlouchX device</a>
+          <a href="#what-slouchx-does">Features</a>
+          <a href="#tech-details">Tech Details</a>
+          <a href="#reviews">Reviews</a>
+          <a href="#faq">FAQ</a>
+          <a href="#contact">Contact Us</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hero Section with centered content -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="hero-content centered-content">
+        <h1 class="hero-title">Revolutionizing Posture Correction.</h1>
+        <a href="#device-intro" class="btn btn-primary">Explore SlouchX</a>
+        <p class="hero-description">
+          SlouchX is the intelligent posture device designed for the modern lifestyle. By understanding your unique body mechanics and movement patterns, it provides personalized posture correction, builds healthy habits, and helps prevent back and neck pain.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Full-page Launching Soon Section -->
+  <section id="launch-countdown" class="fullscreen-section">
+    <div class="launch-overlay"></div>
+    <div class="launch-container">
+      
+      
+      <div class="launch-content">
+        <h1 class="launch-title typing-effect" id="typing-text"></h1>
+        <h2 class="launch-subtitle">Launching Soon</h2>
+        
+        <div class="countdown-timer-large">
+          <div class="countdown-item-large">
+            <div id="countdown-days" class="countdown-value-large">00</div>
+            <div class="countdown-label-large">Days</div>
+          </div>
+          <div class="countdown-item-large">
+            <div id="countdown-hours" class="countdown-value-large">00</div>
+            <div class="countdown-label-large">Hours</div>
+          </div>
+          <div class="countdown-item-large">
+            <div id="countdown-minutes" class="countdown-value-large">00</div>
+            <div class="countdown-label-large">Minutes</div>
+          </div>
+          <div class="countdown-item-large">
+            <div id="countdown-seconds" class="countdown-value-large">00</div>
+            <div class="countdown-label-large">Seconds</div>
+          </div>
+        </div>
+        
+        <div class="launch-cta">
+          <form class="launch-form">
+            <input type="email" placeholder="Enter your email for updates" class="launch-input">
+            <button type="submit" class="launch-button">Notify Me</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- New Device Introduction Section -->
+  <section id="device-intro" class="device-intro-section">
+    <div class="container">
+      <div class="device-grid">
+        <div>
+          <img src="slouchX-device.png" alt="SlouchX Devices" class="device-image">
+          
+        </div>
+        <div class="device-content">
+          <h2 class="section-title">Meet <span class="accent-text">SlouchX</span></h2>
+          <p class="mb-6">
+            Introducing SlouchX, the sleek, compact posture device designed to transform the way you sit, stand, and move. With its minimalist black design, SlouchX seamlessly integrates into your daily routine while actively monitoring and improving your posture.
+          </p>
+          
+          <div class="device-features">
+            <div class="feature-item">
+              <div class="feature-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#0e0e0f" viewBox="0 0 256 256">
+                  <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"></path>
+                </svg>
+              </div>
+              <div class="feature-text">
+                <h3>Discreet Design</h3>
+                <p>Lightweight and compact, SlouchX is virtually invisible under clothing and comfortable for all-day wear.</p>
+              </div>
+            </div>
+            
+            <div class="feature-item">
+              <div class="feature-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#0e0e0f" viewBox="0 0 256 256">
+                  <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"></path>
+                </svg>
+              </div>
+              <div class="feature-text">
+                <h3>Smart Sensing Technology</h3>
+                <p>Advanced sensors continuously monitor your posture and provide real-time feedback when you begin to slouch.</p>
+              </div>
+            </div>
+            
+            <div class="feature-item">
+              <div class="feature-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#0e0e0f" viewBox="0 0 256 256">
+                  <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"></path>
+                </svg>
+              </div>
+              <div class="feature-text">
+                <h3>Extended Battery Life</h3>
+                <p>Enjoy up to 30 hours of continuous use on a single charge, with convenient magnetic charging.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What SlouchX Does Section (Vertical format without alternating sides) -->
+  <section id="what-slouchx-does" class="feature-section py-20">
+    <div class="container">
+      <h2 class="section-title text-center">What <span class="accent-text">SlouchX</span> Does</h2>
+      <p class="text-center mb-16">SlouchX intelligently monitors your posture and provides real-time feedback to help you maintain proper alignment throughout your day.</p>
+      
+      <!-- Feature 1 -->
+      <div class="feature-block">
+        <div class="feature-media">
+          <video width="640" height="360" controls autoplay loop muted>
+            <source src="feature-1.webm" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>          
+        </div>
+        <div class="feature-info">
+          <h3 class="step-number">1.</h3>
+          <div class="feature-content">
+            <h3 class="feature-title">Easy Placement & Setup</h3>
+            <p class="feature-description">
+              Place SlouchX on your back using the adhesive, and set up your goals using SlouchX's mobile App. The device attaches discreetly and comfortably to your upper back, becoming virtually invisible under clothing.
+            </p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Feature 2 -->
+      <div class="feature-block">
+        <div class="feature-info">
+          <h3 class="step-number">2.</h3>
+          <div class="feature-content">
+            <h3 class="feature-title">Real-Time Posture Feedback</h3>
+            <p class="feature-description">
+              Get real-time posture feedback, for instant posture correction, and track your progress via the mobile app. When slouching is detected, SlouchX gently vibrates to remind you to correct your position.
+            </p>
+          </div>
+        </div>
+        <div class="feature-media">
+          <video width="640" height="360" controls autoplay loop muted>
+            <source src="feature-2.webm" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>  
+        </div>
+        
+      </div>
+      
+      <!-- Feature 3 -->
+      <div class="feature-block">
+        <div class="feature-media">
+          <div class="video-container">
+            <div class="video-overlay">
+              <div class="play-button">
+                <div class="play-icon"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="feature-info">
+          <h3 class="step-number">3.</h3>
+          <div class="feature-content">
+            <h3 class="feature-title">Personalized Training Program</h3>
+            <p class="feature-description">
+              SlouchX adapts to your unique body mechanics and gradually builds your core and back strength through a personalized training program. The device adjusts its sensitivity over time, helping you maintain proper posture longer.
+            </p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Feature 4 -->
+      <div class="feature-block">
+        <div class="feature-info">
+          <h3 class="step-number">4.</h3>
+          <div class="feature-content">
+            <h3 class="feature-title">Comprehensive Analytics</h3>
+            <p class="feature-description">
+              Track your progress over time with detailed insights into your posture habits. View your improvement trends, session histories, and receive personalized recommendations to further enhance your posture.
+            </p>
+          </div>
+        </div>
+        <div class="feature-media">
+          <div class="video-container">
+            <div class="video-overlay">
+              <div class="play-button">
+                <div class="play-icon"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </section>
+
+  <!-- How SlouchX Works Section with Video -->
+  <section id="how-slouchx-works" class="cosmos-section py-20">
+    <div class="container">
+      <h2 class="section-title">How <span class="accent-text">SlouchX</span> Works</h2>
+      <p class="mb-4">Curious to see how it all works?</p>
+      <p class="mb-8">Watch how the SlouchX device attaches to your upper back, tracks your posture, and delivers gentle reminders that transform your posture habits over time.</p>
+      
+      <div class="video-container">
+        <div class="video-overlay">
+          <div class="play-button">
+            <div class="play-icon"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tech Details Section -->
+  <section id="tech-details" class="tech-details-section">
+    <div class="container text-center">
+      <h2 class="section-title">Technical <span class="accent-text">Specifications</span></h2>
+      <p class="mb-8">Cutting-edge technology meets elegant design with precise engineering to deliver exceptional performance.</p>
+      
+      <div class="specs-grid">
+        <div class="spec-card">
+          <div class="spec-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#0e0e0f" viewBox="0 0 256 256">
+              <path d="M224,128a95.76,95.76,0,0,1-31.8,71.37A72,72,0,0,0,128,160a40,40,0,1,0-40-40,40,40,0,0,0,40,40,72,72,0,0,0-64.2,39.37A96,96,0,1,1,224,128Z"></path>
+            </svg>
+          </div>
+          <div class="spec-value">14g</div>
+          <div class="spec-label">Ultra-lightweight Design</div>
+        </div>
+        
+        <div class="spec-card">
+          <div class="spec-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#0e0e0f" viewBox="0 0 256 256">
+              <path d="M200,164V152a4,4,0,0,0-4-4H156v16h40A4,4,0,0,0,200,164Zm-44-64h40a4,4,0,0,0,4-4V84a4,4,0,0,0-4-4H156Zm-16-32H60a4,4,0,0,0-4,4v40a4,4,0,0,0,4,4h80a4,4,0,0,0,4-4V72A4,4,0,0,0,140,68Zm4,84V132a4,4,0,0,0-4-4H60a4,4,0,0,0-4,4v20a4,4,0,0,0,4,4h80A4,4,0,0,0,144,152Zm87.31-48.17a8,8,0,0,1-1.43,7.28,85,85,0,0,0-16.61,35.59,4,4,0,0,0,7.84,1.6,94.45,94.45,0,0,1,6.89-17.19V152a20,20,0,0,1-20,20H156v16h52a36,36,0,0,0,36-36V131.11a93.42,93.42,0,0,1,11.11-19.43A8,8,0,0,1,231.31,103.83ZM211.31,97.7a8,8,0,0,1-7.11-4.17,93.71,93.71,0,0,1-11.2-26.71A3.95,3.95,0,0,0,189.05,64H156V48h33.05a20,20,0,0,1,19.75,16.12,85.76,85.76,0,0,0,8.78,21.17A8,8,0,0,1,211.31,97.7ZM232,40V216a16,16,0,0,1-16,16H40a16,16,0,0,1-16-16V40A16,16,0,0,1,40,24H216A16,16,0,0,1,232,40ZM216,216V40H40V216H216Z"></path>
+            </svg>
+          </div>
+          <div class="spec-value">30+ hrs</div>
+          <div class="spec-label">Battery Life</div>
+        </div>
+        
+        <div class="spec-card">
+          <div class="spec-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#0e0e0f" viewBox="0 0 256 256">
+              <path d="M234.5,114.38l-45.13,39.31,13.75,58.5a16,16,0,0,1-23.85,17.34l-51.27-31L76.73,229.53a16,16,0,0,1-23.85-17.34l13.75-58.5L21.5,114.38a16,16,0,0,1,9.1-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.46,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z"></path>
+            </svg>
+          </div>
+          <div class="spec-value">IP67</div>
+          <div class="spec-label">Water & Dust Resistant</div>
+        </div>
+        
+        <div class="spec-card">
+          <div class="spec-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#0e0e0f" viewBox="0 0 256 256">
+              <path d="M208,40H48A24,24,0,0,0,24,64V192a24,24,0,0,0,24,24H208a24,24,0,0,0,24-24V64A24,24,0,0,0,208,40Zm8,152a8,8,0,0,1-8,8H48a8,8,0,0,1-8-8V64a8,8,0,0,1,8-8H208a8,8,0,0,1,8,8ZM62.54,161.85a8,8,0,0,1,10.92-2.93,64.06,64.06,0,0,0,27.64,8.38A32.13,32.13,0,0,0,128,152,32,32,0,0,0,96,120V88A12.58,12.58,0,0,1,98.53,82,36,36,0,0,1,164,88v32a8,8,0,0,1-16,0V88a20,20,0,0,0-32.2-15.79,11.6,11.6,0,0,1,1.8,3.75c.26,1,.4,7,.4,12V120a48,48,0,0,1-48,48,80.12,80.12,0,0,1-34.62-10.46A8,8,0,0,1,62.54,161.85Zm82.59,5.92A32,32,0,0,0,176,136V104a11.59,11.59,0,0,1,.4-3.3,20,20,0,0,0-8.5-3.1,8,8,0,1,1,2.2-15.83,36,36,0,0,1,6.88,1.55A36.29,36.29,0,0,1,212,120v16a48,48,0,0,1-48,48,79.93,79.93,0,0,1-34.61-10.46,8,8,0,0,1,6.92-14.39,63.88,63.88,0,0,0,27.64,8.38A32.1,32.1,0,0,0,192,152a8,8,0,0,1,16,0,47.9,47.9,0,0,1-26.56,43A79.7,79.7,0,0,1,164,200a8,8,0,0,1-3.14-15.38A64,64,0,0,0,176.9,181.5,44.57,44.57,0,0,1,165,176a32.46,32.46,0,0,1-19.86-8.23Z"></path>
+            </svg>
+          </div>
+          <div class="spec-value">±0.5°</div>
+          <div class="spec-label">Posture Accuracy</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Reviews Section -->
+  <section id="reviews" class="reviews-section">
+    <div class="container text-center">
+      <h2 class="section-title">Customer <span class="accent-text">Reviews</span></h2>
+      <p class="mb-8">Hear what our customers have to say about their experience with SlouchX.</p>
+      
+      <div class="reviews-grid">
+        <div class="review-card">
+          <div class="stars">
+            <span class="star">★</span>
+            <span class="star">★</span>
+            <span class="star">★</span>
+            <span class="star">★</span>
+            <span class="star">★</span>
+          </div>
+          <p class="review-text">
+            After years of back pain from sitting at my desk, SlouchX has been a game-changer. The gentle reminders helped me become aware of my posture, and within weeks, my chronic pain decreased significantly.
+          </p>
+          <div class="reviewer">
+            <div class="reviewer-avatar"></div>
+            <div class="reviewer-info">
+              <h4>Sarah Johnson</h4>
+              <p>Software Developer</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="review-card">
+          <div class="stars">
+            <span class="star">★</span>
+            <span class="star">★</span>
+            <span class="star">★</span>
+            <span class="star">★</span>
+            <span class="star">★</span>
+          </div>
+          <p class="review-text">
+            I was skeptical at first, but SlouchX has completely changed how I work. It's so lightweight I forget I'm wearing it, but it keeps me mindful of my posture all day. My chiropractor has noticed the improvement!
+          </p>
+          <div class="reviewer">
+            <div class="reviewer-avatar"></div>
+            <div class="reviewer-info">
+              <h4>Michael Chen</h4>
+              <p>Graphic Designer</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="review-card">
+          <div class="stars">
+            <span class="star">★</span>
+            <span class="star">★</span>
+            <span class="star">★</span>
+            <span class="star">★</span>
+            <span class="star">★</span>
+          </div>
+          <p class="review-text">
+            As a physical therapist, I've recommended SlouchX to dozens of my patients. The progressive training program is exactly what people need to build strength and develop better habits over time.
+          </p>
+          <div class="reviewer">
+            <div class="reviewer-avatar"></div>
+            <div class="reviewer-info">
+              <h4>Dr. Emily Rodriguez</h4>
+              <p>Physical Therapist</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section id="faq" class="faq-section">
+    <div class="container text-center">
+      <h2 class="section-title">Frequently Asked <span class="accent-text">Questions</span></h2>
+      <p class="mb-8">Find answers to the most common questions about SlouchX.</p>
+      
+      <div class="faq-container">
+        <div class="faq-item">
+          <div class="faq-question">
+            How does SlouchX attach to my body?
+            <div class="faq-icon"></div>
+          </div>
+          <div class="faq-answer">
+            SlouchX attaches to your upper back using a medical-grade, hypoallergenic adhesive that's gentle on the skin. The adhesive is designed for all-day wear and can be easily removed without causing irritation. Each adhesive can be used for 3-5 days depending on your activity level.
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <div class="faq-question">
+            How long does the battery last?
+            <div class="faq-icon"></div>
+          </div>
+          <div class="faq-answer">
+            SlouchX's battery provides up to 30 hours of continuous use on a single charge. For most users, this means 3-4 days of regular use. The device comes with a magnetic charging dock that fully recharges the device in just 90 minutes.
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <div class="faq-question">
+            Is SlouchX water-resistant?
+            <div class="faq-icon"></div>
+          </div>
+          <div class="faq-answer">
+            Yes, SlouchX has an IP67 rating, making it dust-tight and able to withstand immersion in water up to 1 meter for 30 minutes. This means you can wear it during workouts and not worry about sweat or light rain, though we don't recommend swimming with it.
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <div class="faq-question">
+            How does the training program work?
+            <div class="faq-icon"></div>
+          </div>
+          <div class="faq-answer">
+            SlouchX's progressive training program adapts to your posture improvement over time. When you first start using SlouchX, it gives you more time to correct your posture before alerting you. As your posture improves, the device gradually becomes more sensitive, helping you maintain perfect posture for longer periods. This gradual approach helps build the supporting muscles needed for good posture without causing fatigue.
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <div class="faq-question">
+            Can I customize the sensitivity of the device?
+            <div class="faq-icon"></div>
+          </div>
+          <div class="faq-answer">
+            Absolutely! Through the SlouchX app, you can customize the sensitivity of the device, the type and intensity of the vibration alerts, and even set "focus periods" where the device becomes less sensitive during important meetings or events. The app gives you complete control over your posture training experience.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+ <!-- Contact Us Section - Centered Layout -->
+<section id="contact" class="contact-section">
+  <div class="container text-center">
+    <h2 class="section-title">Get in <span class="accent-text">Touch</span></h2>
+    <p class="mb-8">Have questions or need support? We're here to help.</p>
+    
+    <!-- Contact Form - Connected to Google Sheets -->
+    <div class="contact-form-container">
+      <form id="contact-form" class="contact-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" id="name" name="name" class="form-input" placeholder="Your name" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" id="email" name="email" class="form-input" placeholder="Your email" required>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="subject" class="form-label">Subject</label>
+          <input type="text" id="subject" name="subject" class="form-input" placeholder="Subject" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="message" class="form-label">Message</label>
+          <textarea id="message" name="message" class="form-input form-textarea" placeholder="Your message" required></textarea>
+        </div>
+        
+        <button type="submit" class="btn btn-primary contact-button">
+          <span class="btn-text">Send Message</span>
+          <span class="spinner hidden"></span>
+        </button>
+        
+        <div id="form-status" class="form-status hidden"></div>
+      </form>
+    </div>
+    
+    <!-- Contact Information - Below Form -->
+    <div class="contact-info-container">
+      <div class="contact-info-grid">
+        <div class="contact-method">
+          <div class="contact-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#ddd0a3" viewBox="0 0 256 256">
+              <path d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48ZM203.43,64,128,133.15,52.57,64ZM216,192H40V74.19l82.59,75.71a8,8,0,0,0,10.82,0L216,74.19V192Z"></path>
+            </svg>
+          </div>
+          <div class="contact-details">
+            <h4>Email</h4>
+            <a href="mailto:support@morphell.com">support@morphell.com</a>
+          </div>
+        </div>
+        
+        <div class="contact-method">
+          <div class="contact-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#ddd0a3" viewBox="0 0 256 256">
+              <path d="M222.37,158.46l-47.11-21.11-.13-.06a16,16,0,0,0-15.17,1.4,8.12,8.12,0,0,0-.75.56L134.87,160c-15.42-7.49-31.34-23.29-38.83-38.51l20.78-24.71c.2-.25.39-.5.57-.77a16,16,0,0,0,1.32-15.06l0-.12L97.54,33.64a16,16,0,0,0-16.62-9.52A56.26,56.26,0,0,0,32,80c0,79.4,64.6,144,144,144a56.26,56.26,0,0,0,55.88-48.92A16,16,0,0,0,222.37,158.46ZM176,208A128.14,128.14,0,0,1,48,80,40.2,40.2,0,0,1,82.87,40a.61.61,0,0,1,.13,0,1,1,0,0,1,.82.75l21,47.11.05.11a1,1,0,0,1-.09.84,1.21,1.21,0,0,1-.17.22l-24.7,29.39a8,8,0,0,0-1.28,8.27c8.22,19.93,26.25,37.85,46.12,46.07a8,8,0,0,0,8.31-1.29L162.45,151a.94.94,0,0,1,.24-.18,1,1,0,0,1,.91,0l.1,0L210.7,172a1,1,0,0,1,.76,1h0A40.21,40.21,0,0,1,176,208Z"></path>
+            </svg>
+          </div>
+          <div class="contact-details">
+            <h4>Phone</h4>
+            <p>+1 (800) 555-BACK</p>
+          </div>
+        </div>
+        
+        <div class="contact-method">
+          <div class="contact-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#ddd0a3" viewBox="0 0 256 256">
+              <path d="M128,64a40,40,0,1,0,40,40A40,40,0,0,0,128,64Zm0,64a24,24,0,1,1,24-24A24,24,0,0,1,128,128Zm0-112a88.1,88.1,0,0,0-88,88c0,31.4,14.51,64.68,42,96.25a254.19,254.19,0,0,0,41.45,38.3,8,8,0,0,0,9.18,0A254.19,254.19,0,0,0,174,200.25c27.45-31.57,42-64.85,42-96.25A88.1,88.1,0,0,0,128,16Zm0,206c-16.53-13-72-60.75-72-118a72,72,0,0,1,144,0C200,161.23,144.53,209,128,222Z"></path>
+            </svg>
+          </div>
+          <div class="contact-details">
+            <h4>Address</h4>
+            <p>123 Posture Place, San Francisco, CA 94105</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <!-- Get the Latest from Morphell Section -->
+  <section class="newsletter-section">
+    <div class="container text-center">
+      <h2 class="section-title">Get the latest from Morphell</h2>
+      <form class="newsletter-form">
+        <input type="email" class="newsletter-input" placeholder="Your email address">
+        <button type="submit" class="newsletter-button">Subscribe</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer Section -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-column">
+          <h3>Product</h3>
+          <ul class="footer-links">
+            <li><a href="#device-intro">SlouchX device</a></li>
+            <li><a href="#what-slouchx-does">features</a></li>
+            <li><a href="#">subscription plan</a></li>
+            <li><a href="#">partnerships</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-column">
+          <h3>Company</h3>
+          <ul class="footer-links">
+            <li><a href="#">Morphell news</a></li>
+            <li><a href="#">media kit</a></li>
+            <li><a href="#">join us</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-column">
+          <h3>Support</h3>
+          <ul class="footer-links">
+            <li><a href="#">customer support</a></li>
+            <li><a href="#">warranty</a></li>
+            <li><a href="#">return policy</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-column">
+          <h3>Legal</h3>
+          <ul class="footer-links">
+            <li><a href="#">plan terms</a></li>
+            <li><a href="#">privacy policy</a></li>
+            <li><a href="#">terms of service</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>SlouchX uses advanced sensors for monitoring posture and providing feedback. For detailed information on safety, regulatory compliance, and usage guidelines, consult the provided Product Safety Guide and/or available online documentation.</p>
+        <p class="my-4">Morphell disclaims liability for damage resulting from ordinary wear and tear or misuse/abuse of Morphell products or any other products. For comprehensive warranty details, consult the provided Quick Guide or review the warranty.</p>
+        <p class="my-4">© Morphell Inc. 2025 All rights reserved.</p>
+        
+        <div class="social-links">
+          <a href="#">X</a>
+          <a href="#">Instagram</a>
+          <a href="#">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Auto-advance slides every 6 seconds
+    setInterval(function() {
+      slideIndex++;
+      if (slideIndex > 7) {slideIndex = 1}
+      showSlides(slideIndex);
+    }, 6000);
+
+    // Smooth scroll implementation for explore button and nav links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+
+
+    // FAQ Accordion with Smooth Slide Animation
+    document.addEventListener('DOMContentLoaded', function() {
+      const faqQuestions = document.querySelectorAll('.faq-question');
+      
+      faqQuestions.forEach(question => {
+        question.addEventListener('click', function() {
+          const answer = this.nextElementSibling;
+          const isActive = this.classList.contains('active');
+          
+          // Close all other FAQs
+          faqQuestions.forEach(q => {
+            if (q !== this) {
+              q.classList.remove('active');
+              const otherAnswer = q.nextElementSibling;
+              otherAnswer.style.maxHeight = '0';
+              otherAnswer.style.opacity = '0';
+              otherAnswer.style.padding = '0';
+              otherAnswer.style.marginBottom = '0';
+            }
+          });
+          
+          // Toggle current FAQ with smooth animation
+          if (!isActive) {
+            this.classList.add('active');
+            answer.style.maxHeight = answer.scrollHeight + 'px';
+            answer.style.opacity = '1';
+            answer.style.padding = '1rem 0 1.5rem';
+            answer.style.marginBottom = '0.5rem';
+          } else {
+            this.classList.remove('active');
+            answer.style.maxHeight = '0';
+            answer.style.opacity = '0';
+            answer.style.padding = '0';
+            answer.style.marginBottom = '0';
+          }
+        });
+      });
+    });
+
+
+    // Contact Form Submission to Google Sheets
+    document.addEventListener('DOMContentLoaded', function() {
+      const form = document.getElementById('contact-form');
+      const formStatus = document.getElementById('form-status');
+      const submitButton = form.querySelector('button[type="submit"]');
+      const btnText = submitButton.querySelector('.btn-text');
+      const spinner = submitButton.querySelector('.spinner');
+      
+      // Replace with your deployed Google Apps Script Web App URL
+      const scriptURL = 'https://script.google.com/macros/s/AKfycbwknuY0hir8l0D7tZoUFtPtb1Qq8b7wDG3EMFXxI_0XnmUW0SpzzlSnDlr1Gl3mwRJm/exec';
+      
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Show loading state
+        submitButton.disabled = true;
+        btnText.textContent = 'Sending...';
+        spinner.classList.remove('hidden');
+        formStatus.classList.add('hidden');
+        
+        // Create form data
+        const formData = new FormData(form);
+        
+        // Send to Google Sheets
+        fetch(scriptURL, {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+          // Success
+          form.reset();
+          formStatus.textContent = 'Thank you! Your message has been sent successfully.';
+          formStatus.className = 'form-status success';
+          submitButton.disabled = false;
+          btnText.textContent = 'Send Message';
+          spinner.classList.add('hidden');
+        })
+        .catch(error => {
+          // Error
+          formStatus.textContent = 'Oops! There was a problem submitting your form. Please try again.';
+          formStatus.className = 'form-status error';
+          submitButton.disabled = false;
+          btnText.textContent = 'Send Message';
+          spinner.classList.add('hidden');
+          console.error('Error!', error.message);
+        });
+      });
+    });
+
+    // Countdown Timer
+    // Set the launch date once (3 months from now)
+    const launchDate = new Date();
+    launchDate.setMonth(launchDate.getMonth() + 3);
+
+    // Countdown Timer Function
+    function updateCountdown() {
+      const currentDate = new Date();
+      const diff = launchDate - currentDate;
+
+      if (diff <= 0) {
+        // Countdown finished
+        document.querySelector('.countdown-timer').innerHTML = "🚀 Launched!";
+        clearInterval(countdownInterval);
+        return;
+      }
+
+      // Calculate time units
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+      // Update the countdown display with padding
+      document.getElementById('countdown-days').textContent = days.toString().padStart(2, '0');
+      document.getElementById('countdown-hours').textContent = hours.toString().padStart(2, '0');
+      document.getElementById('countdown-minutes').textContent = minutes.toString().padStart(2, '0');
+      document.getElementById('countdown-seconds').textContent = seconds.toString().padStart(2, '0');
+    }
+
+    // Initialize countdown immediately
+    updateCountdown();
+
+    // Update every second
+    const countdownInterval = setInterval(updateCountdown, 1000);
+
+    // Add this to your script
+    document.addEventListener('DOMContentLoaded', function() {
+    const text = "Struggling with posture?";
+    const typingElement = document.getElementById('typing-text');
+    let i = 0;
+    let isDeleting = false;
+    
+    function typeWriter() {
+        if (!isDeleting && i < text.length) {
+            typingElement.textContent += text.charAt(i);
+            i++;
+            setTimeout(typeWriter, 100);
+        } else if (isDeleting && i > 0) {
+            typingElement.textContent = text.substring(0, i - 1);
+            i--;
+            setTimeout(typeWriter, 50);
+        } else {
+            isDeleting = !isDeleting;
+            setTimeout(typeWriter, 1000); // Pause before retyping
+        }
+    }
+    
+    typeWriter();
+});
+
+
+    
+  </script>
+</body>
+</html>
